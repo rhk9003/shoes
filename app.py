@@ -44,13 +44,8 @@ st.markdown("""
         transition: transform 0.2s;
     }
     div[data-testid="metric-container"]:hover {
-        transform: scale(1.05);
+        transform: scale(1.03);
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }
-    div[data-testid="metric-container"] label {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #64748b;
     }
     div[data-testid="metric-container"] div[data-testid="stMetricValue"] {
         font-size: 2.5rem;
@@ -66,10 +61,14 @@ st.markdown("""
         margin-top: 10px;
         font-style: italic;
     }
+    
+    /* 列表優化 */
+    ul { margin-bottom: 15px; }
+    li { margin-bottom: 5px; }
 </style>
 """, unsafe_allow_html=True)
 
-# --- 2. 圖片載入系統 (關鍵修復) ---
+# --- 2. 圖片載入系統 (最終修復版本) ---
 
 # 這裡定義 "程式碼中的名稱" 對應到 "您真實的中文檔名"
 # 請務必確認這些檔名與您資料夾中的完全一致 (包含空格)
@@ -77,7 +76,7 @@ IMAGE_MAP = {
     "product_hero": "截圖 2025-12-05 晚上11.40.59.png",
     "fb_ugc": "截圖 2025-12-05 晚上11.41.05.jpg",
     "dcard": "截圖 2025-12-05 晚上11.42.03.jpg",
-    "marie_claire": "截圖 2025-12-05 晚上11.41.41.jpg", # 或是 11.41.34.jpg
+    "marie_claire": "截圖 2025-12-05 晚上11.41.41.jpg", 
     "kol_abby": "截圖 2025-12-05 晚上11.41.56.jpg",
     "kol_achi": "截圖 2025-12-05 晚上11.41.49.jpg",
     "meta_ads": "截圖 2025-12-05 晚上11.41.20.jpg",
@@ -87,27 +86,19 @@ IMAGE_MAP = {
 
 def render_image(key, caption=None, width=None):
     """
-    智慧圖片載入器：會嘗試從根目錄或 images/ 子目錄尋找圖片
+    智能圖片載入器：強制從 images/ 子目錄尋找圖片
     """
     filename = IMAGE_MAP.get(key, key)
-    
-    # 檢查路徑 1: images/資料夾
-    path1 = os.path.join("images", filename)
-    # 檢查路徑 2: 根目錄
-    path2 = filename
-    
-    final_path = None
-    if os.path.exists(path1):
-        final_path = path1
-    elif os.path.exists(path2):
-        final_path = path2
+    # 使用 os.path.join 處理路徑分隔符和編碼問題
+    final_path = os.path.join("images", filename)
         
-    if final_path:
+    if os.path.exists(final_path):
+        # 設置寬度為 None 或 True，使用 Streamlit 的自動適應寬度
         st.image(final_path, caption=caption, use_container_width=(width is None), width=width)
     else:
         # 如果找不到，顯示一個漂亮的錯誤框，而不是報錯
-        st.error(f"🖼️ 圖片未找到")
-        st.caption(f"系統找不到檔案：`{filename}`。請確認該檔案是否存在於資料夾中。")
+        st.error(f"🖼️ 圖片載入失敗！")
+        st.caption(f"系統嘗試在 images/ 資料夾中尋找檔案：`{filename}`。請確認檔名與位置是否正確。")
 
 # --- 3. 側邊欄導航 ---
 with st.sidebar:
@@ -115,18 +106,18 @@ with st.sidebar:
     st.info("💡 瀏覽提示：網頁已優化為垂直捲動的簡報模式。")
     st.markdown("---")
     st.markdown("**快速導航：**")
-    st.markdown("1. [戰績總覽](#1-key-wins)")
-    st.markdown("2. [聲量趨勢](#2)")
-    st.markdown("3. [策略飛輪](#3-strategy)")
-    st.markdown("4. [口碑與信任](#4-step-1)")
-    st.markdown("5. [權威背書](#5-step-2-3)")
-    st.markdown("6. [社群與廣告](#6-step-4-5)")
-    st.markdown("7. [結論](#7)")
+    st.markdown("- [戰績總覽](#1-key-wins)")
+    st.markdown("- [聲量趨勢](#2)")
+    st.markdown("- [策略飛輪](#3-strategy)")
+    st.markdown("- [口碑與信任](#4-step-1)")
+    st.markdown("- [權威背書](#5-step-2-3)")
+    st.markdown("- [社群與廣告](#6-step-4-5)")
+    st.markdown("- [結論](#7)")
 
 # --- 4. 主要內容 (簡報卡片式佈局) ---
 
-# === Slide 1: Title & Key Wins ===
-st.markdown('<div class="slide-card">', unsafe_allow_html=True)
+# === Slide 1: Title & Key Wins (Card) ===
+st.markdown('<div class="slide-card" id="1-key-wins">', unsafe_allow_html=True)
 st.title("DK小白鞋：從新品到市場冠軍的勝利方程式")
 st.markdown("#### 🏆 6個月內逆勢突圍的整合行銷戰役覆盤")
 st.divider()
@@ -154,9 +145,9 @@ with col2:
 st.markdown('</div>', unsafe_allow_html=True)
 
 
-# === Slide 2: Trend Analysis ===
+# === Slide 2: Trend Analysis (Card) ===
 st.header("2. 聲量趨勢")
-st.markdown('<div class="slide-card">', unsafe_allow_html=True)
+st.markdown('<div class="slide-card" id="2">', unsafe_allow_html=True)
 st.subheader("📈 在對手退步時一飛沖天")
 st.markdown("推出僅兩個月，Google 搜尋量即追平對手，半年內實現反超並拉開差距。")
 
@@ -187,83 +178,75 @@ st.plotly_chart(fig, use_container_width=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
 
-# === Slide 3: Strategy Flywheel ===
+# === Slide 3: Strategy Flywheel (Card) ===
 st.header("3. 策略飛輪 (Strategy)")
-st.markdown('<div class="slide-card">', unsafe_allow_html=True)
+st.markdown('<div class="slide-card" id="3-strategy">', unsafe_allow_html=True)
 st.subheader("🔄 成功來自環環相扣的策略飛輪")
-st.write("")
+st.write("精準的行銷組合，創造了從感知、信任到轉化的完整路徑。")
 
 s_col1, s_col2, s_col3 = st.columns(3)
 with s_col1:
     st.info("**🛡️ 建立信任 (Build Trust)**")
     st.markdown("""
-    透過權威媒體、KOL與真實用戶口碑，奠定產品「好看又好穿」的市場共識。
-    * 雜誌廣編
-    * KOL 內容
-    * 會員試穿心得
+    * **雜誌廣編**
+    * **KOL 合作**
+    * **會員試穿心得**
     """)
 with s_col2:
     st.warning("**🔥 創造需求 (Create Demand)**")
     st.markdown("""
-    運用多元素材與社群議題操作，點燃潛在消費者的好奇心與購買慾。
-    * Meta 廣告
-    * Dcard 議題
-    * 穿搭內容
+    * **Meta 廣告**
+    * **Dcard 議題**
+    * **穿搭內容**
     """)
 with s_col3:
     st.success("**💰 驅動轉換 (Drive Conversion)**")
     st.markdown("""
-    在高意圖渠道精準攔截，並以限時促銷加速決策，實現銷售收割。
-    * Google 關鍵字
-    * 團購合作
-    * 促銷活動
+    * **Google Ads**
+    * **團購合作**
+    * **促銷活動**
     """)
 st.markdown('</div>', unsafe_allow_html=True)
 
 
-# === Slide 4: Execution - Trust ===
+# === Slide 4: Execution - Trust (Card) ===
 st.header("4. 執行：口碑與信任 (Step 1)")
-st.markdown('<div class="slide-card">', unsafe_allow_html=True)
-col_ugc1, col_ugc2 = st.columns([1, 1.2])
+st.markdown('<div class="slide-card" id="4-step-1">', unsafe_allow_html=True)
+col_ugc1, col_ugc2 = st.columns([1.2, 1])
 
 with col_ugc1:
     st.subheader("👥 會員試穿活動 (UGC)")
     st.markdown("**策略目標：** 在正式開跑前，先累積第一手好評，作為後續行銷素材。")
-    st.markdown("**執行成效：**")
-    st.markdown("- 創造數百則真實穿搭照")
-    st.markdown("- 解決線上消費者「沒看過實穿」的疑慮")
-    render_image("fb_ugc", "FB 粉絲專頁：試穿募集貼文")
+    render_image("fb_ugc", "FB 粉絲專頁：試穿募集貼文（創造 377 個讚、33 則留言）")
 
 with col_ugc2:
     st.subheader("🗣️ 社群議題操作 (Dcard)")
     st.markdown("**策略目標：** 在年輕族群中「種下問題」，引發自然討論與 SEO 佈局。")
-    st.markdown("- 利用「#請益」標題引發好奇")
-    st.markdown("- 累積 Google 搜尋「DK小白鞋評價」的正面結果")
     render_image("dcard", "Dcard 穿搭板：真實討論串")
 st.markdown('</div>', unsafe_allow_html=True)
 
 
-# === Slide 5: Execution - Authority ===
+# === Slide 5: Execution - Authority (Card) ===
 st.header("5. 執行：權威背書 (Step 2 & 3)")
-st.markdown('<div class="slide-card">', unsafe_allow_html=True)
+st.markdown('<div class="slide-card" id="5-step-2-3">', unsafe_allow_html=True)
 st.subheader("👠 時尚權威認證 & ✈️ KOL 見證")
 st.markdown("結合時尚權威與真實體驗，解決「機能鞋不好看」的痛點。")
 st.write("")
 
 col_auth1, col_auth2 = st.columns(2)
 with col_auth1:
-    st.markdown("**Marie Claire 美麗佳人廣編：**")
-    render_image("marie_claire", "策略意圖：將「機能鞋」提升至「時尚單品」層次")
+    st.markdown("**Marie Claire 美麗佳人廣編**")
+    render_image("marie_claire", "將「機能鞋」提升至「時尚單品」層次")
 
 with col_auth2:
-    st.markdown("**KOL 白白 Abby (前空姐)：**")
-    render_image("kol_abby", "策略意圖：抓住長榮換鞋潮，強調久站舒適與職場穿搭")
+    st.markdown("**KOL 白白 Abby (前空姐)**")
+    render_image("kol_abby", "策略：抓住長榮換鞋潮，強調久站舒適與職場穿搭")
 st.markdown('</div>', unsafe_allow_html=True)
 
 
-# === Slide 6: Execution - Conversion ===
+# === Slide 6: Execution - Conversion (Card) ===
 st.header("6. 執行：社群與廣告 (Step 4 & 5)")
-st.markdown('<div class="slide-card">', unsafe_allow_html=True)
+st.markdown('<div class="slide-card" id="6-step-4-5">', unsafe_allow_html=True)
 
 st.subheader("🎯 Meta 廣告分層策略")
 st.markdown("針對不同階段消費者，投遞「節慶折扣」、「庫存告急」、「新客優惠」等不同訊息。")
@@ -274,21 +257,22 @@ st.divider()
 c_col1, c_col2 = st.columns(2)
 with c_col1:
     st.markdown("#### 🔍 Google 關鍵字攔截")
-    st.markdown("鎖定「小白鞋」、「好穿小白鞋」等高意圖關鍵字。")
+    st.markdown("鎖定「小白鞋」、「好穿小白鞋」等高意圖關鍵字，精準攔截流量。")
     render_image("google_ads", "Google Search Ads 截圖")
 with c_col2:
     st.markdown("#### 📦 KOL 團購收割")
-    st.markdown("累積聲量後，利用團購 (阿淇博士) 進行最後收割。")
-    render_image("group_buy", "團購貼文與成效")
+    st.markdown("在累積了足夠聲量後，進行團購轉化，單次合作創造 **232雙+** 的銷量。")
+    render_image("group_buy", "KOL 團購貼文與成效")
 
 st.markdown('</div>', unsafe_allow_html=True)
 
 
-# === Slide 7: Conclusion ===
+# === Slide 7: Conclusion (Card) ===
 st.header("7. 結論")
-st.markdown('<div class="slide-card" style="background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%); border-left: 10px solid #1e3a8a;">', unsafe_allow_html=True)
+st.markdown('<div class="slide-card" id="7" style="background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%); border-left: 10px solid #1e3a8a;">', unsafe_allow_html=True)
 st.subheader("🎯 DK 小白鞋勝利方程式")
-st.markdown("這不僅是一款產品的勝利，更是市場溝通策略的升級。")
+st.markdown("這不僅是一款產品的勝利，更是市場溝通策略的升級，關鍵在於：")
+st.write("")
 st.markdown("""
 * **📢 聲量先行：** 在投入大量轉換廣告前，先集中資源透過 UGC 與 Dcard 創造口碑。
 * **🔥 情境觸發：** 敏銳抓住時事（長榮空姐），將專業需求轉嫁到大眾市場。
