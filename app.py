@@ -11,7 +11,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 自定義 CSS：維持簡報卡片風格
+# 自定義 CSS：維持簡報卡片風格，確保對齊與視覺結構
 st.markdown("""
 <style>
     /* 核心背景色 */
@@ -68,14 +68,18 @@ st.markdown("""
 # --- 2. 圖片載入系統 (最終修復版本) ---
 
 # 這裡定義 "程式碼中的名稱" 對應到 "您真實的中文檔名"
-# 確保檔名、空格、大小寫和副檔名完全匹配
+# 請確保所有這些檔案都已轉換為 PNG 格式，並放置在根目錄
 IMAGE_MAP = {
+    # 產品圖 (PNG)
     "product_hero": "截圖 2025-12-05 晚上11.40.59.png", 
+    # 口碑/社群 (修正為 PNG)
     "fb_ugc": "截圖 2025-12-05 晚上11.41.05.png", 
     "dcard": "截圖 2025-12-05 晚上11.42.03.png", 
-    "marie_claire": "截圖 2025-12-05 晚上11.41.41.png", 
+    # 權威背書 (修正為 PNG)
+    "marie_claire": "截圖 2025-12-05 晚上11.41.34.png", 
     "kol_abby": "截圖 2025-12-05 晚上11.41.56.png", 
     "kol_achi": "截圖 2025-12-05 晚上11.41.49.png", 
+    # 廣告與收割 (修正為 PNG)
     "meta_ads": "截圖 2025-12-05 晚上11.41.20.png", 
     "google_ads": "截圖 2025-12-05 晚上11.41.27.png", 
     "group_buy": "截圖 2025-12-05 晚上11.42.09.png" 
@@ -95,7 +99,7 @@ def render_image(key, caption=None, width=None):
         # 如果找不到，顯示一個漂亮的錯誤框，而不是報錯
         st.error(f"🖼️ 圖片載入失敗！")
         # os.getcwd() 獲取當前工作目錄
-        st.caption(f"系統找不到檔案：`{filename}`。請確認該檔案是否存在於專案根目錄下。")
+        st.caption(f"系統找不到檔案：`{filename}`。請確認該檔案已轉換為 **.png** 並存在於專案根目錄下。")
 
 # --- 3. 側邊欄導航 ---
 with st.sidebar:
