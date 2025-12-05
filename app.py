@@ -68,7 +68,7 @@ st.markdown("""
 # --- 2. 圖片載入系統 (最終修復版本) ---
 
 # 這裡定義 "程式碼中的名稱" 對應到 "您真實的中文檔名"
-# 已修正 product_hero 為 .png，並使用您提供的其他 .jpg 檔名
+# 確保檔名、空格、大小寫和副檔名完全匹配
 IMAGE_MAP = {
     "product_hero": "截圖 2025-12-05 晚上11.40.59.png", 
     "fb_ugc": "截圖 2025-12-05 晚上11.41.05.jpg", 
@@ -94,7 +94,8 @@ def render_image(key, caption=None, width=None):
     else:
         # 如果找不到，顯示一個漂亮的錯誤框，而不是報錯
         st.error(f"🖼️ 圖片載入失敗！")
-        st.caption(f"系統找不到檔案：`{filename}`。請確認該檔案是否存在於 {os.getcwd()} 根目錄下。")
+        # os.getcwd() 獲取當前工作目錄
+        st.caption(f"系統找不到檔案：`{filename}`。請確認該檔案是否存在於專案根目錄下。")
 
 # --- 3. 側邊欄導航 ---
 with st.sidebar:
