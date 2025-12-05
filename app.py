@@ -121,7 +121,7 @@ st.title("DK小白鞋：從新品到市場冠軍的勝利方程式")
 st.markdown("#### 🏆 6個月內逆勢突圍的整合行銷戰役覆盤")
 
 # === Slide 1: Title & Key Wins (Card) ===
-st.markdown('<div class="slide-card" id="1-戰績總覽">', unsafe_allow_html=True)
+st.markdown('<div class="slide-card">', unsafe_allow_html=True)
 st.header("1. 戰績總覽", anchor="1-戰績總覽")
 
 col1, col2 = st.columns([1, 1.2])
@@ -148,13 +148,12 @@ st.markdown('</div>', unsafe_allow_html=True)
 
 
 # === Slide 2: Trend Analysis (Card) ===
-st.markdown('<div class="slide-card" id="2-聲量趨勢">', unsafe_allow_html=True)
+st.markdown('<div class="slide-card">', unsafe_allow_html=True)
 st.header("2. 聲量趨勢", anchor="2-聲量趨勢")
-
 st.subheader("📈 在對手退步時一飛沖天")
 st.markdown("推出僅兩個月，Google 搜尋量即追平對手，半年內實現反超並拉開差距。")
 
-# 模擬數據
+# 模擬數據 (根據 PDF 趨勢重建)
 data = {
     'Month': ['2022-08', '2022-10', '2022-12', '2023-02', '2023-04', '2023-05', '2023-06', '2023-07'],
     'DK': [10, 12, 15, 30, 80, 450, 300, 750],
@@ -182,10 +181,9 @@ st.plotly_chart(fig, use_container_width=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
 
-# === Slide 3: Strategy Flywheel (Card) ===
-st.markdown('<div class="slide-card" id="3-策略飛輪">', unsafe_allow_html=True)
+# === Slide 3: Strategy Flywheel ===
+st.markdown('<div class="slide-card">', unsafe_allow_html=True)
 st.header("3. 策略飛輪", anchor="3-策略飛輪")
-
 st.subheader("🔄 成功來自環環相扣的策略飛輪總覽")
 
 s_col1, s_col2, s_col3 = st.columns(3)
@@ -200,3 +198,93 @@ with s_col2:
     st.warning("**🔥 創造需求 (Create Demand)**")
     st.markdown("""
     * **Meta 廣告**
+    * **Dcard 議題**
+    * **穿搭內容**
+    """)
+with s_col3:
+    st.success("**💰 驅動轉換 (Drive Conversion)**")
+    st.markdown("""
+    * **Google Ads**
+    * **團購合作**
+    * **促銷活動**
+    """)
+st.markdown('</div>', unsafe_allow_html=True)
+
+
+# === Slide 4: Execution - Trust ===
+st.markdown('<div class="slide-card">', unsafe_allow_html=True)
+st.header("4. 執行：口碑與信任", anchor="4-口碑與信任")
+col_ugc1, col_ugc2 = st.columns([1.2, 1])
+
+with col_ugc1:
+    st.markdown("#### 👥 會員試穿活動 (UGC)")
+    st.markdown("**策略目標：** 在正式開跑前，先累積第一手好評，作為後續行銷素材。")
+    render_image("fb_ugc", "FB 粉絲專頁：試穿募集貼文（創造 377 個讚、33 則留言）")
+
+with col_ugc2:
+    st.markdown("#### 🗣️ 社群議題操作 (Dcard)")
+    st.markdown("**策略目標：** 在年輕族群中「種下問題」，引發自然討論與 SEO 佈局。")
+    render_image("dcard", "Dcard 穿搭板：真實討論串")
+st.markdown('</div>', unsafe_allow_html=True)
+
+
+# === Slide 5: Execution - Authority ===
+st.markdown('<div class="slide-card">', unsafe_allow_html=True)
+st.header("5. 執行：權威背書", anchor="5-權威背書")
+st.subheader("Step 2 & 3: 結合時尚權威與 KOL 見證")
+
+col_auth1, col_auth2 = st.columns(2)
+with col_auth1:
+    st.markdown("#### 👠 Marie Claire 美麗佳人廣編")
+    render_image("marie_claire", "將「機能鞋」提升至「時尚單品」層次")
+
+with col_auth2:
+    st.markdown("#### ✈️ KOL 白白 Abby (前空姐)")
+    render_image("kol_abby", "策略：抓住長榮換鞋潮，強調久站舒適與職場穿搭")
+
+st.divider()
+st.markdown("#### 👟 部落客推薦")
+render_image("kol_achi", "部落客推薦貼文，強調舒適度像走在雲上")
+st.markdown('</div>', unsafe_allow_html=True)
+
+
+# === Slide 6: Execution - Conversion ===
+st.markdown('<div class="slide-card">', unsafe_allow_html=True)
+st.header("6. 廣告與收割", anchor="6-廣告與收割")
+st.subheader("Step 4 & 5: 精準投放與收割")
+
+st.markdown("#### 🎯 Meta 廣告分層策略")
+st.markdown("針對不同階段消費者，投遞「節慶折扣」、「庫存告急」、「新客優惠」等不同訊息。")
+render_image("meta_ads", "多樣化的廣告素材測試")
+
+st.divider()
+
+c_col1, c_col2 = st.columns(2)
+with c_col1:
+    st.markdown("#### 🔍 Google 關鍵字攔截")
+    st.markdown("鎖定「小白鞋」、「好穿小白鞋」等高意圖關鍵字，精準攔截流量。")
+    render_image("google_ads", "Google Search Ads 截圖")
+with c_col2:
+    st.markdown("#### 📦 KOL 團購收割")
+    st.markdown("在累積了足夠聲量後，進行團購轉化，單次合作創造 **232雙+** 的銷量。")
+    render_image("group_buy", "KOL 團購貼文與成效")
+
+st.markdown('</div>', unsafe_allow_html=True)
+
+# === Slide 7: Conclusion ===
+st.markdown('<div class="slide-card" style="background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%); border-left: 10px solid #1e3a8a;">', unsafe_allow_html=True)
+st.header("7. 結論", anchor="7-結論")
+st.subheader("🎯 DK 小白鞋勝利方程式")
+st.markdown("這不僅是一款產品的勝利，更是市場溝通策略的升級，關鍵在於：")
+st.write("")
+st.markdown("""
+* **📢 聲量先行：** 在投入大量轉換廣告前，先集中資源透過 UGC 與 Dcard 創造口碑。
+* **🔥 情境觸發：** 敏銳抓住時事（長榮空姐），將專業需求轉嫁到大眾市場。
+* **🤝 信任疊加：** 結合「媒體」、「KOL」、「素人」三方背書。
+* **🔄 全通路整合：** 線上廣告與線下門市緊密配合，O2O 導流順暢。
+""")
+st.markdown('</div>', unsafe_allow_html=True)
+
+# 頁尾
+st.markdown("---")
+st.caption("© 2025 DK White Sneaker Strategy Review | Created with Streamlit")
